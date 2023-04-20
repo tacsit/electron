@@ -34,11 +34,14 @@ export class Manager {
 		};
 	}
 
+	/**
+	 * Boot the view manager
+	 *
+	 * @fires view:booting
+	 * @fires view:booted
+	 */
 	__boot() {
 		this.app.emit("view:booting");
-
-		//
-
 		this.app.emit("view:booted");
 	}
 
@@ -47,7 +50,11 @@ export class Manager {
 	 *
 	 * @param {Array} center
 	 * @param {Number} zoom
+	 * @param {Number} rotation
 	 * @param {Number} duration
+	 * @fires view:animating
+	 * @fires view:animated
+	 * @return {void}
 	 */
 	animate(center, zoom, rotation = 0, duration = 1000) {
 		this.app.emit("view:animating", this.view);
@@ -56,7 +63,7 @@ export class Manager {
 			zoom: zoom,
 			center: center,
 			duration: duration,
-            rotation: rotation,
+			rotation: rotation,
 		});
 
 		this.app.emit("view:animated", this.view);
@@ -76,6 +83,8 @@ export class Manager {
 	 * Initialize the view
 	 * Set the view to the map
 	 *
+	 * @fires view:initializing
+	 * @fires view:initialized
 	 * @return {void}
 	 */
 	__init() {
@@ -89,8 +98,7 @@ export class Manager {
 	}
 
 	/**
-	 * Animate the view to the home position,
-	 * which is the center of the map and zoom level 2
+	 * Animate the view to the home position
 	 *
 	 * @return {void}
 	 */
@@ -102,7 +110,7 @@ export class Manager {
 		) {
 			this.animate(
 				this.defaultConfig.home.center,
-				this.defaultConfig.home.zoom,
+				this.defaultConfig.home.zoom
 			);
 		}
 

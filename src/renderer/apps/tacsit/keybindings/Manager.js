@@ -27,9 +27,7 @@ export class Manager {
         hotkeys(keys, function(event, handler){
             callback(event, handler);
         });
-
-        console.log('bound', keys);
-
+        
         this.app.emit('keybindings:bound', keys);
     }
 
