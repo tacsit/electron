@@ -8,7 +8,9 @@
                 "description": "Test",
                 "hidden": [
                     ".vscode/",
-                    "node_modules/"
+                    "node_modules/",
+                    "yarn.lock",
+                    "dist/"
                 ]
             },
             {
@@ -27,7 +29,9 @@
         "**/CVS": true,
         "**/.DS_Store": true,
         ".vscode/": true,
-        "node_modules/": true
+        "node_modules/": true,
+        "yarn.lock": true,
+        "dist/": true
     },
     "hidefiles.selectedProfile": "Default"
 }

@@ -1,5 +1,6 @@
 import Map from 'ol/Map';
 import Tacsit from './../Tacsit';
+import TileDebugLayer from './Debug';
 import PoliticalBoundaries from './PoliticalBoundries';
 
 class Manager {
@@ -25,6 +26,10 @@ class Manager {
             political: {
                 class: PoliticalBoundaries,
                 label: PoliticalBoundaries.getLabel(),
+            },
+            debug: {
+                class: TileDebugLayer,
+                label: TileDebugLayer.getLabel(),
             },
         };
 

@@ -15,6 +15,3 @@ class Satellite extends Basemap {
 }
 
 export default Satellite;
-
-
-// Path: src\renderer\apps\tacsit\basemaps\Basemap.js

@@ -1,6 +1,8 @@
 import Map from "ol/Map";
 import SatelliteProvider from "./Satellite";
+import StamenTonerProvider from "./StamenToner";
 import TopographicProvider from "./Topographic";
+import StamenTerrainProvider from "./StamenTerrain";
 import OpenStreetMapProvider from "./OpenStreetMap";
 
 class Manager {
@@ -45,6 +47,14 @@ class Manager {
             topographic: {
                 class: TopographicProvider,
                 label: TopographicProvider.getLabel(),
+            },
+            terrain: {
+                class: StamenTerrainProvider,
+                label: StamenTerrainProvider.getLabel(),
+            },
+            toner: {
+                class: StamenTonerProvider,
+                label: StamenTonerProvider.getLabel(),
             },
             default: {
                 class: OpenStreetMapProvider,
