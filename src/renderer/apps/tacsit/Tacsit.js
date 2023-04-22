@@ -2,12 +2,34 @@ import Map from "ol/Map";
 import { useGeographic } from "ol/proj";
 import ViewManager from "./view/Manager";
 import LayersManager from "./layers/Manager";
+import FiltersManager from "./filters/Manager";
 import BasemapManager from "./basemaps/Manager";
 import KeybindingsManager from "./keybindings/Manager";
 import { defaults as defaultInteractions } from "ol/interaction.js";
 
 class Tacsit {
 	constructor(target, controls = [], layers = [], interactions = []) {
+        /**
+         * Has the map been booted
+         * 
+         * @type {Boolean}
+         */
+        this.isBooted = false;
+
+        /**
+         * Has the map been initialized
+         * 
+         * @type {Boolean}
+         */
+        this.isInitialized = false;
+
+		/**
+		 * Has the map been mounted
+		 *
+		 * @type {Boolean}
+		 */
+		this.isMounted = false;
+
 		/**
 		 * The target element to render the map into
 		 * We expect the argument to be a valid HTMLElement or a valid selector
@@ -32,11 +54,19 @@ class Tacsit {
 		}
 
 		/**
-		 * The map object
+		 * The openlayers map object
 		 *
 		 * @type {Map}
 		 */
 		this.map = null;
+
+		/**
+		 * The managers
+		 *
+		 * @type {Object}
+		 * @private
+		 */
+		this.managers = null;
 
 		/**
 		 * The view manager
@@ -66,15 +96,14 @@ class Tacsit {
 		 */
 		this.keybindings = null;
 
-		// boot the map
-		this.__boot(controls, layers, interactions);
-
 		/**
-		 * Has the map been mounted
+		 * The filters manager
 		 *
-		 * @type {Boolean}
+		 * @type {FiltersManager}
 		 */
-		this.isMounted = false;
+		this.filters = null;
+
+		this.__boot(controls, layers, interactions);
 	}
 
 	/**
@@ -94,16 +123,12 @@ class Tacsit {
 
 		// create the map
 		this.map = new Map({
-			controls: Object.assign([], controls),
-			layers: Object.assign([], layers),
-			interactions: defaultInteractions(
-				Object.assign(
-					{
-						doubleClickZoom: false,
-					},
-					interactions
-				)
-			),
+			controls: [...controls],
+			layers: [...layers],
+			interactions: defaultInteractions({
+				doubleClickZoom: false, 
+                ...interactions
+            }),
 			maxTilesLoading: 32,
 		});
 
@@ -112,6 +137,7 @@ class Tacsit {
 		// // create the managers
 		this.managers = {
 			view: new ViewManager(this, this.map),
+            filters: new FiltersManager(this, this.map),
 			basemaps: new BasemapManager(this, this.map),
 			layers: new LayersManager(this, this.map),
 			keybindings: new KeybindingsManager(this, this.map),
@@ -128,6 +154,8 @@ class Tacsit {
 		}
 
 		this.emit("managers:booted");
+
+        this.isBooted = true;
 	}
 
 	/**

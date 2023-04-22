@@ -1,4 +1,5 @@
 import Map from "ol/Map";
+import Tacsit from './../Tacsit';
 import SatelliteProvider from "./Satellite";
 import StamenTonerProvider from "./StamenToner";
 import TopographicProvider from "./Topographic";
@@ -9,6 +10,7 @@ class Manager {
 	constructor(app, map) {
 		/**
 		 * The main app object
+         * @type {Tacsit}
 		 */
 		this.app = app;
 
@@ -36,6 +38,7 @@ class Manager {
 		 * @type {Object}
 		 */
 		this.basemaps = {
+            
 			osm: {
 				class: OpenStreetMapProvider,
 				label: OpenStreetMapProvider.getLabel(),
@@ -44,14 +47,14 @@ class Manager {
                 class: SatelliteProvider,
                 label: SatelliteProvider.getLabel(),
             },
-            topographic: {
-                class: TopographicProvider,
-                label: TopographicProvider.getLabel(),
-            },
             terrain: {
                 class: StamenTerrainProvider,
                 label: StamenTerrainProvider.getLabel(),
             },
+            topographic: {
+                class: TopographicProvider,
+                label: TopographicProvider.getLabel(),
+            },            
             toner: {
                 class: StamenTonerProvider,
                 label: StamenTonerProvider.getLabel(),

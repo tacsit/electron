@@ -1,6 +1,7 @@
 import AnimateHome from "./AnimateHome.jsx";
 import LayersSelector from "./LayersSelector.jsx";
 import BasemapSelector from "./BasemapSelector.jsx";
+import FiltersSelector from "./FiltersSelector.jsx";
 
 export default function MapToolbar({ children }) {
 	return (
@@ -13,6 +14,9 @@ export default function MapToolbar({ children }) {
 				<div className="relative">
 					<AnimateHome />
 				</div>
+                <div className="relative">
+                    <FiltersSelector />
+                </div>
                 <div className="relative">
                     <LayersSelector />
                 </div>

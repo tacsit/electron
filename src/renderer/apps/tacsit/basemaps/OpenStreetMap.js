@@ -3,7 +3,7 @@ import OSMSource from "ol/source/OSM";
 
 class OpenStreetMap extends Basemap {
 	static getLabel() {
-		return "Streets (OSM)";
+		return "Streets (World)";
 	}
 
 	static getSource() {

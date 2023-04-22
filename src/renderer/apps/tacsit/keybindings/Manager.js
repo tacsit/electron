@@ -1,10 +1,12 @@
 import Map from 'ol/Map';
 import hotkeys from 'hotkeys-js';
+import Tacsit from './../Tacsit';
 
 export class Manager {
     constructor(app, map) {
         /**
          * The main app object
+         * @type {Tacsit}
          */
         this.app = app;
 
