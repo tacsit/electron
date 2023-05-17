@@ -27,6 +27,11 @@ export default function LayersSelector() {
 	useEffect(() => {
 		setActiveLayers(map?.layers?.getActiveLayers());
 		setLayers(map?.layers?.getLayerHandlersAndLabels());
+
+        map?.keybindings?.bind("ctrl+shift+l", () => {
+            setIsOpen(true);
+        });
+
 	}, [map, isOpen]);
 
 	const handleLayerChange = (layer) => {
@@ -37,7 +42,7 @@ export default function LayersSelector() {
 
 	return (
 		<div>
-			<div
+			<button
 				onClick={() => setIsOpen(true)}
 				className="flex items-center justify-center h-12 px-3.5 space-x-1.5 text-gray-400 border-l border-gray-700 cursor-pointer"
 			>
@@ -47,9 +52,9 @@ export default function LayersSelector() {
 						isOpen ? "rotate-180" : ""
 					}`}
 				/>
-			</div>
+			</button>
 			<Dialog open={isOpen} onClose={() => setIsOpen(false)}>
-				<Dialog.Panel className="absolute top-0 bottom-0 right-0 my-12 text-gray-200 bg-black border-l border-gray-700 select-none w-80">
+				<Dialog.Panel className="absolute top-0 bottom-0 my-12 text-gray-200 bg-black border-l border-gray-700 select-none right-12 w-80">
 					<div className="px-4 py-3 text-gray-500 border-b border-gray-700">
 						<Dialog.Title className="font-bold uppercase">
 							Select Layers

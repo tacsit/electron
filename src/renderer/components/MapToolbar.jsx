@@ -10,7 +10,6 @@ export default function MapToolbar({ children }) {
 			<div className="flex h-12"></div>
 
 			<div className="flex h-12">
-				{/* Home: Reset zoom and center */}
 				<div className="relative">
 					<AnimateHome />
 				</div>

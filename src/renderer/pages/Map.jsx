@@ -4,6 +4,7 @@ import AppLayout from "./../layouts/AppLayout.jsx";
 import MapContext from "./../contexts/MapContext.jsx";
 import { createTacsit } from "../apps/tacsit/Tacsit.js";
 import MapToolbar from "./../components/MapToolbar.jsx";
+import MapDrawingToolsToolbar from "../components/MapDrawingToolsToolbar.jsx";
 
 export default function Map() {
 	const mapRef = useRef(null);
@@ -15,9 +16,9 @@ export default function Map() {
 	useEffect(() => {
 		let mapObj = createTacsit(mapRef.current);
 
-        /**
-         * Set the initial map state
-         */
+		/**
+		 * Set the initial map state
+		 */
 		mapObj.view.config({
 			zoom: zoom,
 			center: center,
@@ -27,16 +28,16 @@ export default function Map() {
 			default: basemap,
 		});
 
-        /**
-         * Keyboard shortcuts
-         */
+		/**
+		 * Keyboard shortcuts
+		 */
 		mapObj.keybindings.bind("ctrl+h", () => {
 			mapObj.view.home();
 		});
 
-        /**
-         * Event listeners
-         */
+		/**
+		 * Event listeners
+		 */
 		mapObj.on("basemaps:switched", (basemap) => {
 			setBasemap(basemap.data);
 		});
@@ -46,9 +47,9 @@ export default function Map() {
 			setCenter(mapObj.getCurrentCenter());
 		});
 
-        /**
-         * Mount the map
-         */
+		/**
+		 * Mount the map
+		 */
 		mapObj.mount();
 
 		setMap(mapObj);
@@ -59,8 +60,10 @@ export default function Map() {
 	return (
 		<MapContext.Provider value={map}>
 			<AppLayout>
-				<div className="w-full h-full">
+				<div className="flex w-full h-full">
 					<div ref={mapRef} id="map-container" className="w-full h-full"></div>
+
+					<MapDrawingToolsToolbar />
 				</div>
 
 				<MapToolbar />
