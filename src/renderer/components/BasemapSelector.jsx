@@ -21,9 +21,11 @@ export default function BasemapSelector() {
 	const map = useContext(MapContext);
 
 	const [isOpen, setIsOpen] = useState(false);
+
 	const [currentBasemap, setCurrentBasemap] = useState(
 		map?.basemaps?.currentlySelectedBasemap
 	);
+
 	const [basemaps, setBasemaps] = useState(() => {
 		return getBasemapOptions(map);
 	});
@@ -32,10 +34,9 @@ export default function BasemapSelector() {
 		setCurrentBasemap(map?.basemaps?.currentlySelectedBasemap);
 		setBasemaps(getBasemapOptions(map));
 
-        map?.keybindings?.bind("ctrl+shift+b", () => {
-            setIsOpen(true);
-        });
-
+		map?.keybindings?.bind("ctrl+shift+b", () => {
+			setIsOpen(true);
+		});
 	}, [map, isOpen]);
 
 	const handleBasemapChange = (basemap) => {
@@ -77,7 +78,18 @@ export default function BasemapSelector() {
 										onClick={() => handleBasemapChange(key)}
 										className="flex items-center justify-between w-full h-12 px-4 text-lg cursor-pointer select-none"
 									>
-										<span>{value}</span>
+                                        <div className="flex items-center space-x-3">
+
+                                            {value.preview ? (
+                                                <img
+                                                    src={value.preview}
+                                                    className="h-6 mr-2 border border-gray-700 rounded aspect-video"
+                                                />
+                                            ) : (
+                                                <></>
+                                            )}
+                                            <span>{value.label}</span>
+                                        </div>
 										{currentBasemap === key && (
 											<CheckIcon
 												title="Currently selected"

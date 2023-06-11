@@ -1,9 +1,15 @@
 import Basemap from './Basemap';
 import { XYZ } from 'ol/source';
+import previewUrl from "./previews/topo-world.png";
 
 class Topographic extends Basemap {
+
+    static getPreview() {
+        return previewUrl;
+    }
+
     static getLabel() {
-        return 'Topographic (World)';
+        return 'Topographic (ESRI)';
     }
 
     static getSource() {

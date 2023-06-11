@@ -1,5 +1,6 @@
 import Map from "ol/Map";
-import Tacsit from './../Tacsit';
+import Tacsit from "./../Tacsit";
+import TestingProvider from "./Testing";
 import SatelliteProvider from "./Satellite";
 import StamenTonerProvider from "./StamenToner";
 import TopographicProvider from "./Topographic";
@@ -10,7 +11,7 @@ class Manager {
 	constructor(app, map) {
 		/**
 		 * The main app object
-         * @type {Tacsit}
+		 * @type {Tacsit}
 		 */
 		this.app = app;
 
@@ -38,36 +39,32 @@ class Manager {
 		 * @type {Object}
 		 */
 		this.basemaps = {
-            
 			osm: {
 				class: OpenStreetMapProvider,
-				label: OpenStreetMapProvider.getLabel(),
 			},
-            satellite: {
-                class: SatelliteProvider,
-                label: SatelliteProvider.getLabel(),
-            },
-            terrain: {
-                class: StamenTerrainProvider,
-                label: StamenTerrainProvider.getLabel(),
-            },
-            topographic: {
-                class: TopographicProvider,
-                label: TopographicProvider.getLabel(),
-            },            
-            toner: {
-                class: StamenTonerProvider,
-                label: StamenTonerProvider.getLabel(),
-            },
-            default: {
-                class: OpenStreetMapProvider,
-                label: OpenStreetMapProvider.getLabel(),
-            }
+			satellite: {
+				class: SatelliteProvider,
+			},
+			terrain: {
+				class: StamenTerrainProvider,
+			},
+			testing: {
+				class: TestingProvider,
+			},
+			topographic: {
+				class: TopographicProvider,
+			},
+			toner: {
+				class: StamenTonerProvider,
+			},
+			default: {
+				class: OpenStreetMapProvider,
+			},
 		};
 
-        this.defaultConfig = {
-            default: 'default',
-        };
+		this.defaultConfig = {
+			default: "default",
+		};
 	}
 
 	__boot() {
@@ -81,9 +78,9 @@ class Manager {
 		this.app.emit("basemaps:booted");
 	}
 
-    config(config) {
-        this.defaultConfig = Object.assign(this.defaultConfig, config);
-    }
+	config(config) {
+		this.defaultConfig = Object.assign(this.defaultConfig, config);
+	}
 
 	__init() {
 		this.app.emit("basemaps:initializing");
@@ -93,43 +90,47 @@ class Manager {
 		this.app.emit("basemaps:initialized");
 	}
 
-    /**
-     * Switches the basemap to the one specified
-     * @param {String} basemap The name of the basemap to switch to
-     * @returns {void}
-     * @fires basemaps:switching
-     * @fires basemaps:switched
-     */
-    switchToBasemap(basemap) {
-        this.app.emit("basemaps:switching", basemap);
+	/**
+	 * Switches the basemap to the one specified
+	 * @param {String} basemap The name of the basemap to switch to
+	 * @returns {void}
+	 * @fires basemaps:switching
+	 * @fires basemaps:switched
+	 */
+	switchToBasemap(basemap) {
+		this.app.emit("basemaps:switching", basemap);
 
-        if (!this.basemaps[basemap]) {
-            this.currentlySelectedBasemap = 'default';
-        } else {
-            this.currentlySelectedBasemap = basemap;
-        }        
+		if (!this.basemaps[basemap]) {
+			this.currentlySelectedBasemap = "default";
+		} else {
+			this.currentlySelectedBasemap = basemap;
+		}
 
-        this.map.removeLayer(this.currentBasemap);
+		this.map.removeLayer(this.currentBasemap);
 
-        this.currentBasemap = this.basemaps[this.currentlySelectedBasemap].class.getTileLayer();
+		this.currentBasemap =
+			this.basemaps[this.currentlySelectedBasemap].class.getTileLayer();
 
-        this.map.getLayers().insertAt(0, this.currentBasemap);
+		this.map.getLayers().insertAt(0, this.currentBasemap);
 
-        this.app.emit("basemaps:switched", basemap);
-    }    
+		this.app.emit("basemaps:switched", basemap);
+	}
 
-    /**
-     * @returns {Object} An object with the basemap name as the key and the basemap label as the value
-     */
-    getBasemapsHandlersAndLabels() {
-        let basemaps = {};
+	/**
+	 * @returns {Object} An object with the basemap name as the key and the basemap label as the value
+	 */
+	getBasemapsHandlersAndLabels() {
+		let basemaps = {};
 
-        for (let basemap in this.basemaps) {
-            basemaps[basemap] = this.basemaps[basemap].label;
-        }
+		for (let basemap in this.basemaps) {
+			basemaps[basemap] = {
+				label: this.basemaps[basemap].class.getLabel(),
+				preview: this.basemaps[basemap].class.getPreview(),
+			};
+		}
 
-        return basemaps;
-    }
+		return basemaps;
+	}
 }
 
 export default Manager;

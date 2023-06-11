@@ -1,9 +1,15 @@
 import Basemap from './Basemap';
 import { Stamen } from 'ol/source';
+import previewUrl from "./previews/terrain-world.png";
 
 class StamenTerrain extends Basemap {
+
+    static getPreview() {
+        return previewUrl;
+    }
+
     static getLabel() {
-        return 'Terrain (World)';
+        return 'Terrain';
     }
 
     static getSource() {

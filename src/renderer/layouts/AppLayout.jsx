@@ -22,7 +22,7 @@ export default function AppLayout({ children }) {
 				<div className="flex items-center h-12">
 					{/* App Main User Dropdown */}
 					<div className="relative">
-						<UserDropdown />
+						{/* <UserDropdown /> */}
 					</div>
 
 					{/* App Main Timestamp */}
