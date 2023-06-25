@@ -1,6 +1,10 @@
 import Tile from 'ol/layer/Tile';
 
 class Layer {
+    static getDescription() {
+        throw new Error('You have to implement the method getDescription()');
+    }
+
     static getLabel() {
         throw new Error('You have to implement the method getLabel()');
     }

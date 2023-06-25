@@ -4,24 +4,25 @@ import ViewManager from "./view/Manager";
 import LayersManager from "./layers/Manager";
 import FiltersManager from "./filters/Manager";
 import BasemapManager from "./basemaps/Manager";
+import CoordinatesManager from "./coordinates/Manager";
 import KeybindingsManager from "./keybindings/Manager";
 import { defaults as defaultInteractions } from "ol/interaction.js";
 
 class Tacsit {
 	constructor(target, controls = [], layers = [], interactions = []) {
-        /**
-         * Has the map been booted
-         * 
-         * @type {Boolean}
-         */
-        this.isBooted = false;
+		/**
+		 * Has the map been booted
+		 *
+		 * @type {Boolean}
+		 */
+		this.isBooted = false;
 
-        /**
-         * Has the map been initialized
-         * 
-         * @type {Boolean}
-         */
-        this.isInitialized = false;
+		/**
+		 * Has the map been initialized
+		 *
+		 * @type {Boolean}
+		 */
+		this.isInitialized = false;
 
 		/**
 		 * Has the map been mounted
@@ -103,6 +104,13 @@ class Tacsit {
 		 */
 		this.filters = null;
 
+        /**
+         * The coordinates manager
+         * 
+         * @type {CoordinatesManager}
+         */
+        this.coordinates = null;
+
 		this.__boot(controls, layers, interactions);
 	}
 
@@ -126,9 +134,9 @@ class Tacsit {
 			controls: [...controls],
 			layers: [...layers],
 			interactions: defaultInteractions({
-				doubleClickZoom: false, 
-                ...interactions
-            }),
+				doubleClickZoom: false,
+				...interactions,
+			}),
 			maxTilesLoading: 32,
 		});
 
@@ -137,10 +145,11 @@ class Tacsit {
 		// // create the managers
 		this.managers = {
 			view: new ViewManager(this, this.map),
-            filters: new FiltersManager(this, this.map),
+			filters: new FiltersManager(this, this.map),
 			basemaps: new BasemapManager(this, this.map),
 			layers: new LayersManager(this, this.map),
 			keybindings: new KeybindingsManager(this, this.map),
+			coordinates: new CoordinatesManager(this, this.map),
 		};
 
 		this.emit("managers:booting");
@@ -155,7 +164,7 @@ class Tacsit {
 
 		this.emit("managers:booted");
 
-        this.isBooted = true;
+		this.isBooted = true;
 	}
 
 	/**
@@ -190,7 +199,7 @@ class Tacsit {
 			data: data,
 		});
 
-		console.log(`Event emitted: ${event}`);
+		// console.log(`Event emitted: ${event}`);
 	}
 
 	getCurrentCenter() {

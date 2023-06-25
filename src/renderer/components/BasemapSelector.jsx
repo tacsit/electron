@@ -78,18 +78,18 @@ export default function BasemapSelector() {
 										onClick={() => handleBasemapChange(key)}
 										className="flex items-center justify-between w-full h-12 px-4 text-lg cursor-pointer select-none"
 									>
-                                        <div className="flex items-center space-x-3">
-
-                                            {value.preview ? (
-                                                <img
-                                                    src={value.preview}
-                                                    className="h-6 mr-2 border border-gray-700 rounded aspect-video"
-                                                />
-                                            ) : (
-                                                <></>
-                                            )}
-                                            <span>{value.label}</span>
-                                        </div>
+										<div className="flex items-center space-x-3">
+											{value.preview ? (
+												<img
+													preload="true"
+													src={value.preview}
+													className="h-6 mr-2 border border-gray-700 rounded aspect-video"
+												/>
+											) : (
+												<></>
+											)}
+											<span>{value.label}</span>
+										</div>
 										{currentBasemap === key && (
 											<CheckIcon
 												title="Currently selected"

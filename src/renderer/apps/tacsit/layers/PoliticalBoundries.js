@@ -2,6 +2,11 @@ import Layer from './Layer';
 import { XYZ } from 'ol/source';
 
 class PoliticalBoundaries extends Layer {
+    
+    static getDescription() {
+        return 'A general reference map of political boundaries.'
+    }
+
     static getLabel() {
         return 'Political Boundaries';
     }

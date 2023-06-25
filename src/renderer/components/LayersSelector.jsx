@@ -62,12 +62,12 @@ export default function LayersSelector() {
 					</div>
 
 					{layers ? (
-						<ul className="text-base text-gray-500 divide-y divide-gray-700">
+						<ul className="text-sm text-gray-500 divide-y divide-gray-700">
 							{Object.entries(layers).map(([key, value]) => (
 								<li key={key}>
 									<button
 										onClick={() => handleLayerChange(key)}
-										className="flex items-center justify-between w-full px-4 py-2 text-lg cursor-pointer select-none"
+										className="flex items-center justify-between w-full h-12 px-4 py-2 text-lg cursor-pointer select-none"
 									>
 										<span>{value}</span>
 										{activeLayers.indexOf(key) >= 0 && (
