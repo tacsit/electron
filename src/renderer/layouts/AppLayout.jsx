@@ -3,6 +3,8 @@ import CurrentDate from "../components/CurrentDate";
 import CurrentTimestamp from "../components/CurrentTimestamp";
 import ApplicationHealthIndicator from "../components/ApplicationHealthIndicator";
 import { Database } from "react-feather";
+import { CicsDb2Connection } from "@carbon/icons-react";
+import DatasourcesSelector from "../components/DatasourcesSelector";
 
 export default function AppLayout({ children }) {
 	return (
@@ -34,13 +36,7 @@ export default function AppLayout({ children }) {
 				<nav className="flex flex-col items-center justify-between w-12 text-white border-r border-gray-700">
 					<div className="w-full">
                         
-						<a
-							href="#"
-							className="flex items-center justify-center w-full h-12 text-gray-400 border-b border-gray-700 hover:bg-gray-900"
-							title="Add datasource to map"
-						>
-							<Database className="w-5 h-5 stroke-current" />
-						</a>
+						<DatasourcesSelector />
 
 					</div>
 

@@ -4,7 +4,7 @@ import CurrentTimestamp from "../components/CurrentTimestamp";
 export default function SecondaryMapLayout({ children }) {
 	return (
 		<div className="flex flex-col w-full h-screen overflow-hidden bg-black selection:bg-gray-500">
-			<header className="flex items-center justify-end w-full h-12 text-sm text-white bg-black border-gray-700 border-y">
+			<header className="items-center justify-end w-full h-12 text-sm text-white bg-black border-gray-700 border-y hidden sm:flex">
 
 				<div className="flex items-center h-12">
 

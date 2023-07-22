@@ -18,10 +18,10 @@ export default function SecondaryMapToolbar() {
                 <div className="relative sm:block hidden">
                     <FiltersSelector />
                 </div>
-                <div className="relative">
+                <div className="relative sm:block hidden">
                     <LayersSelector />
                 </div>
-                <div className="relative">
+                <div className="relative sm:block hidden">
                     <BasemapSelector />
                 </div>
                 <div className="relative">

@@ -19,52 +19,52 @@ export class Manager {
 		 */
 		this.map = map;
 
-        /**
-         * The VectorSource
-         * @type {VectorSource}
-         */
-        this.vectorSource = null;
+		/**
+		 * The VectorSource
+		 * @type {VectorSource}
+		 */
+		this.vectorSource = null;
 
-        /**
-         * The VectorLayer
-         * @type {VectorLayer}
-         */
-        this.VectorLayer = null;
+		/**
+		 * The VectorLayer
+		 * @type {VectorLayer}
+		 */
+		this.VectorLayer = null;
 
-        /**
-         * The Modify interaction
-         * @type {Modify}
-         */ 
-        this.modifyInteraction = null;
+		/**
+		 * The Modify interaction
+		 * @type {Modify}
+		 */
+		this.modifyInteraction = null;
 
-        /**
-         * The Snap interaction
-         * @type {Snap}
-         */
-        this.snapInteraction = null;
+		/**
+		 * The Snap interaction
+		 * @type {Snap}
+		 */
+		this.snapInteraction = null;
 	}
 
 	__boot() {
 		this.app.emit("features:booting");
 
-        this.vectorSource = new VectorSource();
+		this.vectorSource = new VectorSource();
 
-        this.vectorLayer = new VectorLayer({
-            source: this.vectorSource,
-            style: {
-                "stroke-width": 2,
-            },
-        });
+		this.vectorLayer = new VectorLayer({
+			source: this.vectorSource,
+			style: {
+				"stroke-width": 2,
+			},
+		});
 
-        this.modifyInteraction = new Modify({
-            source: this.vectorSource,
-        });
+		this.modifyInteraction = new Modify({
+			source: this.vectorSource,
+		});
 
-        this.modifyInteraction.setActive(false);
+		this.modifyInteraction.setActive(false);
 
-        this.snapInteraction = new Snap({
-            source: this.vectorSource,
-        });
+		this.snapInteraction = new Snap({
+			source: this.vectorSource,
+		});
 
 		this.app.emit("features:booted");
 	}
@@ -77,60 +77,75 @@ export class Manager {
 
 		this.map.addLayer(this.vectorLayer);
 		this.map.addInteraction(this.modifyInteraction);
-        this.map.addInteraction(this.snapInteraction);
+		this.map.addInteraction(this.snapInteraction);
 
-		let draw = new Draw({
-			source: this.vectorSource,
-			type: "Polygon",
-		});
-
-		this.map.addInteraction(draw);
-
-		hotkeys("esc", (event, handler) => {
+		hotkeys("ctrl+e", (event, handler) => {
 			event.preventDefault();
-            draw.abortDrawing();
-            draw.setActive(false);
-            this.map.removeInteraction(draw);
+			if (this.modifyInteraction.getActive()) {
+				this.modifyInteraction.setActive(false);
+				this.app.emit("features:modify:disabled");
+			} else {
+				this.modifyInteraction.setActive(true);
+				this.app.emit("features:modify:enabled");
+			}
 		});
-
-        hotkeys("ctrl+e", (event, handler) => {
-            event.preventDefault();
-            if(this.modifyInteraction.getActive()) {
-                this.modifyInteraction.setActive(false);
-            } else {
-                this.modifyInteraction.setActive(true);
-            }
-        });
-
-        draw.on("drawend", (event) => {
-            draw.setActive(false);
-            this.map.removeInteraction(draw);
-        });
-
-        // when a point is double clicked, remove the point from the drawing
-        this.map.on("dblclick", (event) => {
-            // get the feature that was clicked
-            let feature = this.map.forEachFeatureAtPixel(event.pixel, (feature) => {
-                return feature;
-            });
-
-            // find the nearest point to the clicked point
-            let closestPoint = feature.getGeometry().getClosestPoint(event.coordinate);
-
-            // remove the point from the feature
-            feature.getGeometry().removePoint(closestPoint);
-
-            // if the feature has less than 3 points, remove it from the map
-            if(feature.getGeometry().getCoordinates()[0].length < 3) {
-                this.vectorSource.removeFeature(feature);
-            }
-
-            // re-render the map
-            this.map.render();
-        });
 
 		this.app.emit("features:initialized");
 	}
+
+	enableModifyInteraction() {
+		this.modifyInteraction.setActive(true);
+        this.snapInteraction.setActive(true);
+	}
+
+	disableModifyInteraction() {
+		this.modifyInteraction.setActive(false);
+        this.snapInteraction.setActive(false);
+	}
+
+	startDrawing(geometryType, options = {}) {
+		let lookup = {
+			point: "Point",
+			line: "LineString",
+			polyline: "LineString",
+			polygon: "Polygon",
+			circle: "Circle",
+		};
+
+		geometryType = lookup[geometryType];
+
+		this.draw = new Draw({
+			source: this.vectorSource,
+			type: geometryType,
+		});
+
+		this.map.addInteraction(this.draw);
+        this.snapInteraction.setActive(true);
+
+		hotkeys("esc", (event, handler) => {
+			event.preventDefault();
+			this.draw.abortDrawing();
+			this.draw.setActive(false);
+			this.map.removeInteraction(this.draw);
+            this.app.emit("features:drawend", event);
+            this.snapInteraction.setActive(false);
+		});
+
+		this.draw.on("drawend", (event) => {
+			this.draw.setActive(false);
+			this.map.removeInteraction(this.draw);
+            this.app.emit("features:drawend", event);
+            this.snapInteraction.setActive(false);
+		});
+	}
+
+    stopDrawing() {
+        if (this.draw) {
+            this.draw.abortDrawing();
+            this.draw.setActive(false);
+            this.map.removeInteraction(this.draw);
+        }
+    }
 }
 
 export default Manager;
