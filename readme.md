@@ -19,6 +19,7 @@ RPA Mission Planning Platform
 - https://www.maptiler.com/server/
 - https://geoint.nrlssc.navy.mil/nrltileserver/tilewms
 - https://software.af.mil/team/platformone/
+- https://gis.stackexchange.com/questions/400999/openlayers-essential-polygon-data-to-save-in-a-database
 
 ## TACSIT JS App
 

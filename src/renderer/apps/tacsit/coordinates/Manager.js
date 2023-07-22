@@ -17,6 +17,8 @@ export class Manager {
 		 */
 		this.map = map;
 
+        this.target = null;
+
 		/**
 		 * The control object
 		 *
@@ -26,7 +28,7 @@ export class Manager {
 		this.control = null;
 
 		this.defaultConfig = {
-			className: "tacsit-mouse-position",
+			className: "class-tacsit-mouse-position",
 			target: "tacsit-mouse-position",
 		};
 	}
@@ -38,10 +40,12 @@ export class Manager {
 	__boot() {
 		this.app.emit("coordinates:booting");
 
-		this.control = new MousePosition({
+        this.target = document.getElementById(this.defaultConfig.target);
+
+        this.control = new MousePosition({
 			coordinateFormat: toStringHDMS,
-            className: this.defaultConfig.className,
-			target: document.getElementById(this.defaultConfig.target),
+            className: '',
+			target: this.target,
             placeholder: 'Place cursor on map.'
 		});
 
@@ -55,11 +59,14 @@ export class Manager {
 	__init() {
 		this.app.emit("coordinates:initializing");
 
-        this.map.getControls().getArray().forEach((control) => {
-            if (control instanceof MousePosition) {
-                this.map.removeControl(control);
-            }
-        });
+        this.map.removeControl(this.control)
+
+        // check if the target already has a child element, if so, remove it, 
+        // otherwise the control will render the placeholder text twice, when 
+        // in development mode due to react's useEffect hook.
+        if (this.target.firstChild) {
+            this.target.removeChild(this.target.firstChild);
+        }
 
         this.map.addControl(this.control);
 

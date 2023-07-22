@@ -5,7 +5,7 @@ import FiltersSelector from "./FiltersSelector.jsx";
 import MouseCoordinatesContainer from "./MouseCoordinatesContainer.jsx";
 import AdditionalWindowLauncher from "./AdditionalWindowLauncher.jsx";
 
-export default function MapToolbar() {
+export default function SecondaryMapToolbar() {
 	return (
 		<div className="flex items-center justify-between w-full h-12 border border-l-0 border-gray-700">
 			{/* Todo: add the channels selector */}
@@ -14,9 +14,6 @@ export default function MapToolbar() {
 			<div className="flex h-12">
 				<div className="relative sm:block hidden">
 					<AnimateHome />
-				</div>
-				<div className="relative">
-					<AdditionalWindowLauncher />
 				</div>
                 <div className="relative sm:block hidden">
                     <FiltersSelector />

@@ -4,6 +4,7 @@ import ViewManager from "./view/Manager";
 import LayersManager from "./layers/Manager";
 import FiltersManager from "./filters/Manager";
 import BasemapManager from "./basemaps/Manager";
+import FeaturesManager from "./features/Manager";
 import CoordinatesManager from "./coordinates/Manager";
 import KeybindingsManager from "./keybindings/Manager";
 import { defaults as defaultInteractions } from "ol/interaction.js";
@@ -150,6 +151,7 @@ class Tacsit {
 			layers: new LayersManager(this, this.map),
 			keybindings: new KeybindingsManager(this, this.map),
 			coordinates: new CoordinatesManager(this, this.map),
+            features: new FeaturesManager(this, this.map),
 		};
 
 		this.emit("managers:booting");

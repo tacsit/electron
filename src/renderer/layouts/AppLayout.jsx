@@ -1,13 +1,8 @@
-import {
-	CameraIcon,
-	ChatBubbleLeftEllipsisIcon,
-	GlobeAltIcon,
-	MapIcon,
-} from "@heroicons/react/24/outline";
+import { CameraIcon, MapIcon } from "@heroicons/react/24/outline";
 import CurrentDate from "../components/CurrentDate";
-import UserDropdown from "../components/UserDropdown";
 import CurrentTimestamp from "../components/CurrentTimestamp";
 import ApplicationHealthIndicator from "../components/ApplicationHealthIndicator";
+import { Database } from "react-feather";
 
 export default function AppLayout({ children }) {
 	return (
@@ -21,9 +16,7 @@ export default function AppLayout({ children }) {
 
 				<div className="flex items-center h-12">
 					{/* App Main User Dropdown */}
-					<div className="relative">
-						{/* <UserDropdown /> */}
-					</div>
+					<div className="relative">{/* <UserDropdown /> */}</div>
 
 					{/* App Main Timestamp */}
 					<p className="flex items-center justify-center h-12 px-4 font-mono tracking-tight border-l border-gray-700 select-none focus:outline-none focus:bg-gray-900">
@@ -40,12 +33,15 @@ export default function AppLayout({ children }) {
 			<div className="flex flex-1 w-full border-l border-gray-700">
 				<nav className="flex flex-col items-center justify-between w-12 text-white border-r border-gray-700">
 					<div className="w-full">
-						<a href="/"
+                        
+						<a
+							href="#"
 							className="flex items-center justify-center w-full h-12 text-gray-400 border-b border-gray-700 hover:bg-gray-900"
-							title="2D Map View"
+							title="Add datasource to map"
 						>
-							<MapIcon className="w-5 h-5 stroke-current" />
+							<Database className="w-5 h-5 stroke-current" />
 						</a>
+
 					</div>
 
 					<button className="flex items-center justify-center w-full h-12 text-gray-400 border-gray-700 border-y hover:bg-gray-900">

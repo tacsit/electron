@@ -63,7 +63,7 @@ export default function BasemapSelector() {
 				/>
 			</button>
 			<Dialog open={isOpen} onClose={() => setIsOpen(false)}>
-				<Dialog.Panel className="absolute top-0 bottom-0 my-12 text-gray-200 bg-black border-l border-gray-700 select-none right-12 w-80">
+				<Dialog.Panel className="absolute top-0 bottom-0 my-12 text-gray-200 bg-black border-l border-gray-700 select-none right-12 w-80 z-50">
 					<div className="h-12 px-4 py-3 text-gray-500 border-b border-gray-700">
 						<Dialog.Title className="font-bold uppercase">
 							Select a Basemap
